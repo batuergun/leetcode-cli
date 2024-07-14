@@ -107,11 +107,8 @@ func SaveProblem(details GraphQLResponse, dir string) error {
 	}
 	defer file.Close()
 
-	content := fmt.Sprintf("# %s\n\n%s\n\n**Difficulty:** %s\n\n**Question ID:** %s\n",
-		details.Data.Question.Title,
-		details.Data.Question.Content,
-		details.Data.Question.Difficulty,
-		details.Data.Question.QuestionID)
+	content := fmt.Sprintf("# [%s. %s (%s)](https://leetcode.com/problems/%s)\n\n", details.Data.Question.QuestionID, details.Data.Question.Title, details.Data.Question.Difficulty, details.Data.Question.TitleSlug)
+	content += fmt.Sprintf("%s", details.Data.Question.Content)
 
 	_, err = file.WriteString(content)
 	if err != nil {
