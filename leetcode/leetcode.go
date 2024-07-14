@@ -100,7 +100,7 @@ func FetchProblemDetails(slug string) (GraphQLResponse, error) {
 }
 
 func SaveProblem(details GraphQLResponse, dir string) error {
-	filePath := filepath.Join(dir, "problem.md")
+	filePath := filepath.Join(dir, "README.md")
 	file, err := os.Create(filePath)
 	if err != nil {
 		return fmt.Errorf("could not create file: %v", err)
