@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	leetcodeAPI       = "https://leetcode.com/api/problems/all/"
+	leetcodeAPI        = "https://leetcode.com/api/problems/all/"
 	leetcodeGraphQLAPI = "https://leetcode.com/graphql"
 )
 
@@ -40,11 +40,11 @@ type GraphQLRequest struct {
 type GraphQLResponse struct {
 	Data struct {
 		Question struct {
-			Title       string `json:"title"`
-			Content     string `json:"content"`
-			Difficulty  string `json:"difficulty"`
-			QuestionID  string `json:"questionId"`
-			TitleSlug   string `json:"titleSlug"`
+			Title      string `json:"title"`
+			Content    string `json:"content"`
+			Difficulty string `json:"difficulty"`
+			QuestionID string `json:"questionId"`
+			TitleSlug  string `json:"titleSlug"`
 		} `json:"question"`
 	} `json:"data"`
 }
@@ -99,15 +99,24 @@ func FetchProblemDetails(slug string) (GraphQLResponse, error) {
 	return gqlResp, nil
 }
 
-func SaveProblem(problem GraphQLResponse) error {
-	dir := fmt.Sprintf("problems/%s.%s", problem.Data.Question.QuestionID, problem.Data.Question.Title)
-	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
-		return err
+func SaveProblem(details GraphQLResponse, dir string) error {
+	filePath := filepath.Join(dir, "problem.md")
+	file, err := os.Create(filePath)
+	if err != nil {
+		return fmt.Errorf("could not create file: %v", err)
+	}
+	defer file.Close()
+
+	content := fmt.Sprintf("# %s\n\n%s\n\n**Difficulty:** %s\n\n**Question ID:** %s\n",
+		details.Data.Question.Title,
+		details.Data.Question.Content,
+		details.Data.Question.Difficulty,
+		details.Data.Question.QuestionID)
+
+	_, err = file.WriteString(content)
+	if err != nil {
+		return fmt.Errorf("could not write to file: %v", err)
 	}
 
-	readmeContent := fmt.Sprintf("## %s. %s (%s)\n\n", problem.Data.Question.QuestionID, problem.Data.Question.Title, problem.Data.Question.Difficulty)
-	readmeContent += fmt.Sprintf("Link: [LeetCode](https://leetcode.com/problems/%s/)\n\n", problem.Data.Question.TitleSlug)
-	readmeContent += problem.Data.Question.Content
-
-	return os.WriteFile(filepath.Join(dir, "README.md"), []byte(readmeContent), 0644)
+	return nil
 }

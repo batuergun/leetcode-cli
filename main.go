@@ -2,8 +2,11 @@ package main
 
 import (
 	"fmt"
-	"leetcode-cli/leetcode"
-	"leetcode-cli/markdown"
+	"os"
+	"path/filepath"
+
+	"github.com/Baticaly/leetcode-cli/leetcode"
+	"github.com/Baticaly/leetcode-cli/markdown"
 )
 
 func main() {
@@ -46,7 +49,13 @@ func main() {
 			continue
 		}
 
-		if err := leetcode.SaveProblem(details); err != nil {
+		problemPath := filepath.Join("problems", slug)
+		if err := os.MkdirAll(problemPath, os.ModePerm); err != nil {
+			fmt.Printf("Error creating directory '%s': %v\n", problemPath, err)
+			continue
+		}
+
+		if err := leetcode.SaveProblem(details, problemPath); err != nil {
 			fmt.Println("Error saving problem:", err)
 		}
 	}
