@@ -1,6 +1,6 @@
-# LeetCode CLI Tool
+# LeetCode CLI
 
-This Go-based CLI tool fetches LeetCode problems listed in a `README.md` file and saves their details locally. It leverages the LeetCode API to retrieve problem information and stores it in a structured format.
+LeetCode CLI is a Go-based command-line tool designed to fetch LeetCode problem details listed in a `README.md` file and save them locally. It utilizes the LeetCode API to retrieve problem information and stores it in a structured format.
 
 ## Features
 
@@ -60,3 +60,7 @@ The tool will fetch details for "Add Two Numbers" and "Longest Substring Without
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+
+## License
+
+The MIT License (MIT) - See the [LICENSE](LICENSE) for more details
