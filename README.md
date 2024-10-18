@@ -13,7 +13,7 @@ LeetCode CLI is a Go-based command-line tool designed to fetch LeetCode problem 
 
 1. Install the tool using `go install`:
 ```bash
-go install github.com/Baticaly/leetcode-cli@latest
+go install github.com/batuergun/leetcode-cli@latest
 ```
 
 2. Ensure your `GOPATH/bin` is in your `PATH` environment variable. You can add the following line to your shell profile (`~/.bashrc`, `~/.zshrc`, etc.):
